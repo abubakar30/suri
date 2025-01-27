@@ -53,3 +53,6 @@ $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['TransactionForm'] = 'TransactionForm';
+$route['transaction/submit'] = 'TransactionForm/submit';
+$route['deposit'] = 'Dashboard/deposit';
+$route['withdrawal'] = 'Dashboard/withdrawal';

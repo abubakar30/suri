@@ -23,6 +23,31 @@
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+  <style>
+    .card-body {
+        height: 300px;  /* Adjust the height of the card-body as needed */
+        padding: 0;
+        overflow-y: auto;  /* If the table is too long, it will scroll */
+    }
+
+    .table-fill {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-fill th, .table-fill td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .table-fill th {
+        background-color: #f2f2f2;
+    }
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -68,41 +93,21 @@
 					<section class="col-lg-12">
 						<div class="card">
 							<div class="card-header">
-								<h3 class="card-title">Transaction Form</h3>
+								<h3 class="card-title">Deposit</h3>
 							</div>
 							<div class="card-body">
-								<form action="<?php echo base_url('transaction/submit') ?>" method="POST">
-									<div class="form-group">
-										<label>Name</label>
-										<input type="name" name="name" class="form-control" placeholder="Enter name">
-									</div>
-									<div class="form-group">
-										<label>Date:</label>
-										<div class="input-group date" id="transaction_date" data-target-input="nearest">
-											<input type="text" name="date" class="form-control datetimepicker-input" data-target="#transaction_date"/>
-											<div class="input-group-append" data-target="#transaction_date" data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<label>Reference</label>
-										<input type="text" name="reference" class="form-control" placeholder="Enter reference">
-									</div>
-									<div class="form-group">
-										<label>Type of Transaction</label>
-										<select name="type_of_transaction" class="form-control" style="width: 100%;">
-											<option value="">Please Select</option>
-											<option value="1">Deposit</option>
-											<option value="2">Withdrawal</option>
-										</select>
-									</div>
-									<div class="form-group">
-										<label>Amount (RM)</label>
-										<input type="number" name="amount" class="form-control" placeholder="Enter amount">
-									</div>
-									<button type="submit" class="btn btn-primary">Submit</button>
-								</form>
+                                <table class="table-fill" id="user_table" border="1" cellpadding="5" cellspacing="0">
+                                    <thead>
+                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Reference</th>
+                                            <th>Type of Transaction</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
 							</div>
 						</div>
 					</section>
@@ -158,6 +163,8 @@
 <script src="<?php echo base_url() ?>assets/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?php echo base_url() ?>assets/dist/js/pages/dashboard.js"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script>
 	$(document).ready(function () {
 		$('#transaction_date').datetimepicker({
@@ -169,6 +176,28 @@
         if (event.target.type === 'text') {
             event.target.value = event.target.value.toUpperCase();
         }
+    });
+
+    $(document).ready(function() {
+        // Initialize DataTable
+        $('#user_table').DataTable({
+            "ajax": {
+                "url": "<?php echo site_url('deposit'); ?>",  // URL to fetch data
+                "type": "GET",
+                "dataSrc": function (json) {
+                    console.log(json);
+                    // Format or manipulate the JSON data if needed
+                    return json;
+                }
+            },
+            "columns": [
+                { "data": "name" },  // Corresponds to your database column names
+                { "data": "date" },
+                { "data": "reference" },
+                { "data": "type_of_transaction" },
+                { "data": "amount" }
+            ]
+        });
     });
 </script>
 </body>
