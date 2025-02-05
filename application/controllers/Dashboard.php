@@ -12,7 +12,9 @@ class Dashboard extends CI_Controller
 
     public function index()
     {
-        $this->load->view('dashboard');
+        $data['sum_of_deposit'] = $this->TransactionModel->get_sum_deposit()->total_amount;
+        $data['sum_of_withdrawal'] = $this->TransactionModel->get_sum_withdrawal()->total_amount;
+        $this->load->view('dashboard', $data);
     }
 
     public function deposit()

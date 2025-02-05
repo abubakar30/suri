@@ -104,7 +104,7 @@
 				<div class="col-lg-6 col-6">
 				<div class="small-box bg-success">
 				<div class="inner">
-					<h3>RM <?php echo number_format(4553000, 2, '.', ','); ?></h3>
+					<h3>RM <?php echo number_format($sum_of_deposit, 2, '.', ','); ?></h3>
 					
 					<p>Deposit</p>
 				</div>
@@ -117,7 +117,7 @@
 			<div class="col-lg-6 col-6">
 				<div class="small-box bg-danger">
 				<div class="inner">
-					<h3>RM <?php echo number_format(20000, 2, '.', ','); ?></h3>
+					<h3>RM <?php echo number_format($sum_of_withdrawal, 2, '.', ','); ?></h3>
 
 					<p>Withdrawal</p>
 				</div>
