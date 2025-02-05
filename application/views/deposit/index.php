@@ -96,8 +96,11 @@
 								<h3 class="card-title">Deposit</h3>
 							</div>
 							<div class="card-body">
-                                <table class="table-fill" id="user_table" border="1" cellpadding="5" cellspacing="0">
-                                    <thead>
+
+                                <table class="table table-bordered datatable2" style="width: 100%; font-size:15px;">
+                                    <thead class="bg-gradient-gray-dark">
+                                        <tr>
+                                            <th>No</th>
                                             <th>Name</th>
                                             <th>Date</th>
                                             <th>Reference</th>
@@ -106,6 +109,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                            foreach ($deposits as $key => $value)
+                                            {
+                                        ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <?php echo $key + 1; ?>
+                                                    </td>
+                                                    <td><?php echo $value->name ?></td>
+                                                    <td><?php echo $value->date ?></td>
+                                                    <td><?php echo $value->reference ?></td>
+                                                    <td><?php echo $value->type_of_transaction ?></td>
+                                                    <td><?php echo $value->amount ?></td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
 							</div>
@@ -179,24 +199,23 @@
     });
 
     $(document).ready(function() {
-        // Initialize DataTable
-        $('#user_table').DataTable({
-            "ajax": {
-                "url": "<?php echo site_url('deposit'); ?>",  // URL to fetch data
-                "type": "GET",
-                "dataSrc": function (json) {
-                    console.log(json);
-                    // Format or manipulate the JSON data if needed
-                    return json;
+        $('.datatable2').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "pageLength": 15,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                search: 'Search',
+                "paginate": {
+                    "previous": '<',
+                    "next": '>'
                 }
-            },
-            "columns": [
-                { "data": "name" },  // Corresponds to your database column names
-                { "data": "date" },
-                { "data": "reference" },
-                { "data": "type_of_transaction" },
-                { "data": "amount" }
-            ]
+            }
         });
     });
 </script>

@@ -17,8 +17,8 @@ class Dashboard extends CI_Controller
 
     public function deposit()
     {
-        $data = $this->TransactionModel->get_deposit_data();
-        $this->load->view('deposit/index');
+        $data['deposits'] = $this->TransactionModel->get_deposit_data();
+        $this->load->view('deposit/index', $data);
     }
 
     public function withdrawal()
